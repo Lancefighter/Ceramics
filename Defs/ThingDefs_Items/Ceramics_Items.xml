@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Defs>
+	<ThingDef ParentName="ResourceBase">
+		<defName>Clay_Base</defName>
+		<label>Unfired clay</label>
+		<description>A simple clay ready to be fired into bricks, or processed further.</description>
+		<graphicData>
+			<texPath>Things/Item/Resource/Kibble</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<stackLimit>75</stackLimit>
+		<statBases>
+			<Mass>1</Mass>
+			<MarketValue>.1</MarketValue>
+		</statBases>
+		<stuffProps>
+			<commonality>0</commonality>
+		</stuffProps>
+
+	</ThingDef>
+
+
+	<RecipeDef>
+		<defName>Make_Clay_Base</defName>
+		<label>make clay for bricks</label>
+		<description>Magically make clay out of any stone chunk.</description>
+		<workerCounterClass>RecipeWorkerCounter_MakeStoneBlocks</workerCounterClass>
+		<jobString>Forming Clay.</jobString>
+		<workAmount>1600</workAmount>
+		<effectWorking>CutStone</effectWorking>
+		<soundWorking>Recipe_MakeStoneBlocks</soundWorking>
+		<recipeUsers>
+			<li>TableStonecutter</li>
+		</recipeUsers>
+		<ingredients>
+			<li>
+				<filter>
+					<categories>
+						<li>StoneChunks</li>
+					</categories>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<categories>
+				<li>StoneChunks</li>
+			</categories>
+		</fixedIngredientFilter>
+		<products>
+			<Clay_Base>50</Clay_Base>
+		</products>
+	</RecipeDef>
+
+
+	<ThingDef ParentName="StoneBlocksBase">
+		<defName>Bricks</defName>
+		<label>Clay Bricks</label>
+		<description>Clay bricks. A very average building material, but reliable.</description>
+		<graphicData>
+			<color>(55,0,0)</color>
+		</graphicData>
+		<statBases>
+			<Mass>1</Mass>
+			<SharpDamageMultiplier>0.4</SharpDamageMultiplier>
+		</statBases>
+		<stuffProps>
+			<color>(55,0,0)</color>
+			<soundImpactStuff>BulletImpact_Ground</soundImpactStuff>
+			<soundMeleeHitSharp>MeleeHit_Stone</soundMeleeHitSharp>
+			<soundMeleeHitBlunt>MeleeHit_Stone</soundMeleeHitBlunt>
+			<stuffAdjective>brick</stuffAdjective>
+			<statFactors>
+				<Beauty>1.0</Beauty>  
+				<MaxHitPoints>1.3</MaxHitPoints>
+				<WorkToBuild>3.0</WorkToBuild>
+				<WorkToMake>1.1</WorkToMake>
+			</statFactors>
+		</stuffProps>
+	</ThingDef>
+
+</Defs>
