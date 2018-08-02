@@ -78,6 +78,77 @@
 		</researchPrerequisites>
 	</ThingDef>
 
+	<ThingDef ParentName="BuildingBase">
+		<defName>ElectricCeramicsKiln</defName>
+		<label>Electric kiln</label>
+		<description>An electric metal kiln for better temperature control, allowing for metal-ceramic composites to be processed</description>
+		<thingClass>ExpandableFermenting.Building_Processing</thingClass>
+		<!-- Can also use ExpandableFermenting.Building_Processing. Combine with CompProperties_Processing. -->
+		<graphicData>
+			<texPath>Things/Building/Production/FermentingBarrel</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<damageData>
+				<rect>(0.05,0.1,0.9,0.9)</rect>
+			</damageData>
+			<shadowData>
+				<volume>(0.75, 0.35, 0.33)</volume>
+			</shadowData>
+		</graphicData>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<fillPercent>0.45</fillPercent>
+		<pathCost>60</pathCost>
+		<thingCategories>
+			<li>BuildingsProduction</li>
+		</thingCategories>
+		<statBases>
+			<WorkToBuild>600</WorkToBuild>
+			<Mass>10</Mass>
+			<MaxHitPoints>100</MaxHitPoints>
+			<Flammability>.1</Flammability>
+		</statBases>
+		<stuffCategories>
+			<li>Metallic</li>
+		</stuffCategories>
+		<costStuffCount>50</costStuffCount>
+		<comps>
+			<!-- Can also use power, flickable, refuelable, and breakdownable components. -->
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <shortCircuitInRain>true</shortCircuitInRain>
+        <basePowerConsumption>350</basePowerConsumption>
+      </li>
+			<li Class="ExpandableFermenting.CompProperties_Processing">
+				<ingredientDef>CompositeClay</ingredientDef>
+				<!--
+				<ingredientFilter> Do not use both this and ingredientDef. This will only be used if ingredientDef is not defined.
+					<thingDefs>
+						<li>UnfinishedBricks</li> If you want to define individual thingDefs.
+					</thingDefs>
+					<categories>
+						<li>Manufactured</li> If you want to define categories.
+					</categories>
+				</ingredientFilter> Filters can also be used in other ways, but this is not the place to document them. -->
+
+				<!-- <ingredientLabel>wort</ingredientLabel> Overrides ingredientDef.label in UI. Necessary if using ingredientFilter. -->
+				<productDef>CompositeCeramic</productDef>
+				<!-- Must be defined. -->
+				<capacity>50</capacity>
+				<fermentationDuration>120000</fermentationDuration><!-- (6 days) is default -->
+				<!-- <minIdealTemperature>7.0</minIdealTemperature> is default. Beer is not ruined below this temperature, but progress slows. Not used for CompProperties_Processing. -->
+				<!-- <processFinishedLabel>Fermented</processFinishedLabel> is default. "Finished" is default for CompProperties_Processing. -->
+				<!-- <idealTempLabel>Ideal fermenting temperature</idealTempLabel> is default. "Ideal processing temperature" is default for CompProperties_Processing. -->
+				<!-- <outOfIdealTemperatureLabel>Non-ideal temperature. Fermentation speed:</outOfIdealTemperatureLabel> is default. Not used for CompProperties_Processing. -->
+			</li>
+		</comps>
+		<tickerType>Rare</tickerType>
+		<rotatable>true</rotatable>
+		<designationCategory>Production</designationCategory>
+		<researchPrerequisites>
+			<li>Electricity</li>
+		</researchPrerequisites>
+	</ThingDef>
 
 
 </Defs>

@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Defs>
-	<ThingDef ParentName="ResourceBase">
+	<ThingDef Name="CeramicsBase" Abstract="true">
+		<thingClass>ThingWithComps</thingClass>
+		<category>Item</category>
+		<resourceReadoutPriority>Middle</resourceReadoutPriority>
+		<useHitPoints>false</useHitPoints>
+		<selectable>true</selectable>
+		<altitudeLayer>Item</altitudeLayer>
+		<stackLimit>200</stackLimit>
+		<statBases>
+			<Beauty>-5</Beauty>
+		</statBases>
+		<comps>
+			<li Class="CompProperties_Forbiddable"/>
+		</comps>
+		<alwaysHaulable>true</alwaysHaulable>
+		<drawGUIOverlay>true</drawGUIOverlay>
+		<rotatable>false</rotatable>
+		<pathCost>15</pathCost>
+
+	</ThingDef>
+
+
+	<ThingDef ParentName="CeramicsBase">
 		<defName>Clay_Base</defName>
 		<label>Unfired clay</label>
 		<description>A simple clay ready to be fired into bricks, or processed further.</description>
@@ -9,7 +31,6 @@
 			<texPath>Things/Item/Resource/Kibble</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<stackLimit>75</stackLimit>
 		<statBases>
 			<Mass>1</Mass>
 			<MarketValue>.1</MarketValue>
@@ -17,17 +38,56 @@
 		<stuffProps>
 			<commonality>0</commonality>
 		</stuffProps>
-
+		<thingCategories>
+			<li>ResourcesRaw</li>
+		</thingCategories>
 	</ThingDef>
 
 
+	<ThingDef ParentName="CeramicsBase">
+		<defName>CompositeClay</defName>
+		<label>Composite Ceramic Clay</label>
+		<description>A processed clay, to be fired into ceramic plates to use as a replacement for steel</description>
+		<graphicData>
+			<texPath>Things/Item/Resource/Kibble</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<statBases>
+			<Mass>.5</Mass>
+			<MarketValue>.1</MarketValue>
+		</statBases>
+		<stuffProps>
+			<commonality>0</commonality>
+		</stuffProps>
+		<thingCategories>
+			<li>ResourcesRaw</li>
+		</thingCategories>
+	</ThingDef>
+
 	<RecipeDef>
 		<defName>Make_Clay_Base</defName>
-		<label>make clay for bricks</label>
-		<description>Magically make clay out of any stone chunk.</description>
+		<label>dig clay for bricks</label>
+		<description>Dig up some clay</description>
 		<workerCounterClass>RecipeWorkerCounter_MakeStoneBlocks</workerCounterClass>
 		<jobString>Forming Clay.</jobString>
-		<workAmount>1600</workAmount>
+		<workAmount>2500</workAmount>
+		<effectWorking>CutStone</effectWorking>
+		<soundWorking>Recipe_MakeStoneBlocks</soundWorking>
+		<recipeUsers>
+			<li>TableStonecutter</li>
+		</recipeUsers>
+		<products>
+			<Clay_Base>50</Clay_Base>
+		</products>
+	</RecipeDef>
+
+	<RecipeDef>
+		<defName>Make_Clay_Composite</defName>
+		<label>Make Ceramic Composite Clay</label>
+		<description>Mix metals</description>
+		<workerCounterClass>RecipeWorkerCounter_MakeStoneBlocks</workerCounterClass>
+		<jobString>Mixing metals and clay</jobString>
+		<workAmount>2500</workAmount>
 		<effectWorking>CutStone</effectWorking>
 		<soundWorking>Recipe_MakeStoneBlocks</soundWorking>
 		<recipeUsers>
@@ -36,23 +96,31 @@
 		<ingredients>
 			<li>
 				<filter>
-					<categories>
-						<li>StoneChunks</li>
-					</categories>
+					<thingDefs>
+						<li>Steel</li>
+					</thingDefs>
 				</filter>
-				<count>1</count>
+				<count>15</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Clay_Base</li>
+					</thingDefs>
+				</filter>
+				<count>50</count>
 			</li>
 		</ingredients>
 		<fixedIngredientFilter>
-			<categories>
-				<li>StoneChunks</li>
-			</categories>
+			<thingDefs>
+				<li>Steel</li>
+				<li>Clay_Base</li>
+			</thingDefs>
 		</fixedIngredientFilter>
 		<products>
-			<Clay_Base>50</Clay_Base>
+			<CompositeClay>50</CompositeClay>
 		</products>
 	</RecipeDef>
-
 
 	<ThingDef ParentName="StoneBlocksBase">
 		<defName>Bricks</defName>
@@ -79,5 +147,57 @@
 			</statFactors>
 		</stuffProps>
 	</ThingDef>
+
+	<ThingDef ParentName="ResourceBase">
+		<defName>CompositeCeramic</defName>
+		<label>Composite Ceramic</label>
+		<description>A Hardened ceramic, stronger but more brittle than steel. Cannot be recycled.</description>
+		<graphicData>
+			<texPath>Things/Item/Resource/Silver</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<soundInteract>Metal_Drop</soundInteract>
+		<soundDrop>Metal_Drop</soundDrop>
+		<statBases>
+			<MarketValue>2.5</MarketValue>
+			<Mass>0.5</Mass>
+			<StuffPower_Armor_Sharp>1.1</StuffPower_Armor_Sharp>
+			<StuffPower_Armor_Blunt>0.5</StuffPower_Armor_Blunt>
+			<StuffPower_Armor_Heat>0.60</StuffPower_Armor_Heat>
+			<StuffPower_Insulation_Cold>0</StuffPower_Insulation_Cold>
+			<StuffPower_Insulation_Heat>0</StuffPower_Insulation_Heat>
+			<SharpDamageMultiplier>1</SharpDamageMultiplier>
+			<BluntDamageMultiplier>1</BluntDamageMultiplier>
+		</statBases>
+		<useHitPoints>false</useHitPoints>
+		<slagDef>ChunkSlagSteel</slagDef>
+		<thingCategories>
+			<li>ResourcesRaw</li>
+		</thingCategories>
+		<deepCommonality>0</deepCommonality>
+		<deepCountPerPortion>0</deepCountPerPortion>
+		<deepLumpSizeRange>
+			<min>0</min>
+			<max>0</max>
+		</deepLumpSizeRange>
+		<stuffProps>
+			<categories>
+				<li>Metallic</li>
+			</categories>
+			<commonality>1.00</commonality>
+			<constructEffect>ConstructMetal</constructEffect>
+			<color>(105,105,105)</color>
+			<soundImpactStuff>BulletImpact_Metal</soundImpactStuff>
+			<soundMeleeHitSharp>MeleeHit_Metal_Sharp</soundMeleeHitSharp>
+			<soundMeleeHitBlunt>MeleeHit_Metal_Blunt</soundMeleeHitBlunt>
+			<statFactors>
+				<MaxHitPoints>.9</MaxHitPoints>
+				<Beauty>1.1</Beauty>
+				<Flammability>0.4</Flammability>
+			</statFactors>
+			<smeltable>false</smeltable>
+		</stuffProps>
+	</ThingDef>
+
 
 </Defs>
